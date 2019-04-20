@@ -45,6 +45,9 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+/* TestController Static Router */
+Router::connect('/one', ['controller' => 'Tests', 'action' => 'method']);
+
 Router::scope('/', function (RouteBuilder $routes) {
     // Register scoped middleware for in scopes.
     $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
@@ -57,6 +60,9 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->applyMiddleware('csrf');
 
+    /* DEFAULT ROUTER SNIPPET */
+    //Cake\Routing\Router::connect($routeName, $default=[]);
+
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
@@ -68,6 +74,20 @@ Router::scope('/', function (RouteBuilder $routes) {
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+
+    $routes->connect('/two', ['controller' => 'Tests', 'action' => 'method_case']);
+
+    /* DEFAULT ROUTER SNIPPET [With Arguments] */
+    // OPTION 1 : Elaborated
+    $routeName = "/3a/:param1/:param2";
+    $default = ['controller' => 'Tests', 'action' => 'method_show'];
+    $options =  ['pass'=>['param1', 'param2']];
+    Cake\Routing\Router::connect($routeName, $default, $options);
+    
+    // OPTION 2 : Inline
+    $routes->connect('/3b/:param1/:param2', 
+                    ['controller' => 'Tests', 'action' => 'method_show'], 
+                    ['pass'=>['param1', 'param2']]);
 
     /**
      * Connect catchall routes for all controllers.
