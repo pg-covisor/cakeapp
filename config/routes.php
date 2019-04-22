@@ -45,6 +45,10 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+// Step 1 : 
+Router::connect('/', ['controller' => 'Theme', 'action' => 'index']);
+
+
 /* TestController Static Router */
 Router::connect('/one', ['controller' => 'Tests', 'action' => 'method']);
 
@@ -68,7 +72,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    // $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
