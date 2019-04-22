@@ -35,6 +35,7 @@ class TestsController extends AppController
 
         /* Use if there is no content in view file */
         // echo "Its a simple text from TestsController";
+        $this->set("title", "CakePHP App");
     }
 
     /* CASE 2 :  DISPLAY DATA via VIEW &
@@ -42,6 +43,7 @@ class TestsController extends AppController
     public function methodCase()
     {
         // Sending VVariables
+        $this->set("title", "CakePHP App");
         $this->set("name", "Piyush Gupta");
         $this->set("email", "piyush@gmail.com");
         

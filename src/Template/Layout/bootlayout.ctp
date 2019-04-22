@@ -8,17 +8,19 @@
     
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
 </head>
 <body>
 
-    <?= $this->element('header') ?>
+    <section>
+        <?= $this->element('header') ?>
+    </section>
 
-    <div class="container clearfix" style="min-height: 70vh; margin-top: 80px;">
+    <section class="container" style="margin-top: 60px;">
         <?= $this->fetch('content') ?>
-    </div>
+    </section>
     
-    <?= $this->element('footer') ?>
 
     <!-- Required Scripts -->
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
