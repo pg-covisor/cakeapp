@@ -1,4 +1,5 @@
-<div style="float: right;">
+<h2>Breadcrumbs Helper Examples</h2>
+
 <?php
 
 $this->Breadcrumbs->add([
@@ -17,15 +18,13 @@ $this->Breadcrumbs->templates([
 echo $this->Breadcrumbs->render();
 
 ?>
-</div>
 
-<br><br>
 I m a plain text in method.ctp file.
 Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
 Nemo illo soluta aut labore laborum fugiat iusto deserunt, 
 aliquid odio ad quam qui pariatur nihil cupiditate possimus 
 magni? Obcaecati, iste voluptatem.
-<br><hr><br>
+<br><hr>
 Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
 Nemo illo soluta aut labore laborum fugiat iusto deserunt, 
 aliquid odio ad quam qui pariatur nihil cupiditate possimus 
