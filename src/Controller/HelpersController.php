@@ -54,6 +54,12 @@ class HelpersController extends AppController
             print_r($data);
         }
     }
+
+    // Step 3 : Create a method in controller to call 
+    public function maths()
+    {
+        $this->viewBuilder()->setLayout(false);
+    }
 }
 
 
