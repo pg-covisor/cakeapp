@@ -82,4 +82,15 @@ class TestsController extends AppController
                 break;
         }
     }
+
+    // Case 3 : Collected at different Controller & different method
+    public function formAction()
+    {
+        $this->viewBuilder()->setLayout(false);
+        if($this->request->is('post')){
+            $formdata = $this->request->data;
+            print_r("Case 3 : Collected at different controller & different method, and also passed to its view");
+            $this->set(compact("formdata"));
+        }
+    }
 }
