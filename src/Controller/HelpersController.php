@@ -9,7 +9,7 @@ class HelpersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->viewBuilder()->layout('bootlayout');
+        $this->viewBuilder()->setLayout('bootlayout');
     }
 
     public function breadcrumbs()
