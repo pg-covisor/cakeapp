@@ -6,10 +6,12 @@ use App\Controller\AppController;
 
 // Step 1 : Import Connection Manager
 use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry; 
 
 class DatabaseController extends AppController
 {
     private $connection;
+    private $table;
 
     public function initialize()
     {
@@ -18,6 +20,7 @@ class DatabaseController extends AppController
         // Step 2 : Call out the default database 
         // [Before calling set username, password & db_name in config/app.php]
         $this->connection = ConnectionManager::get('default');
+        $this->table = TableRegistry::get('employees');
     }
 
     // Step 3 : Create a table in db named [employees], then create insert method
@@ -99,6 +102,100 @@ class DatabaseController extends AppController
         print_r($employeetwo);
     }
 
+    // Using Table Registry
+    public function insertDummyEmployee()
+    {
+        $this->autoRender = false;
+
+        // Create new Instance
+        $tableObject = $this->table->newEntity();
+
+        // Add data to it via KEY
+        // $tableObject->name = "Rakesh Sharma";
+        // $tableObject->email = "rakesh.sharma@yahoo.com";
+        // $tableObject->phone = "9955995511";
+
+        // Add data to it as ARRAY
+        $tableObject['name'] = "Tarun Johar";
+        $tableObject['email'] = "tarun.johar@rediff.com";
+        $tableObject['phone'] = "8899889955";
+
+        // Save and upload
+        $this->table->save($tableObject);
+
+        // 
+        echo $tableObject->id;
+    }
+
+    // Fetching all data via Table Registry
+    public function fetchAllEmployees() {
+        $this->autoRender = false;
+
+        // $allEmp = $this->table->find('all')->toArray();
+
+        // With Conditions (inside)
+        // $allEmp = $this->table->find('all', [
+        //      'conditions'=>['id'=>2],
+        //      'order'=>['id'='desc'],
+        //      'limit'=>4
+        // ])->toList();
+
+        // With conditions (outside)
+         $allEmp = $this->table->find('all')->toList();
+        //  $allEmp = $this->table->find('all')->select(['name', 'email'])->order(['id'=>'desc'])->toList();
+        //  $allEmp = $this->table
+        //  ->find('all')
+        //  ->select('name')
+        //  ->where()
+        //  ->order(['id'=>'desc'])
+        //  ->limit(2)
+        //  ->offset()
+        //  ->toList();
+
+        foreach ($allEmp as $key => $value) {
+            echo $value->name." , ".$value->email."<br>";
+        }
+    }
+
+    public function updateEmployeeEmail($id="", $email="")
+    {
+        $this->autoRender = false;
+        if($id !== "" && $email !== "") {
+            // 1. Get concerned data
+            $temp = $this->table->get($id);
+            // 2. Update its value
+            $temp->email = $email;
+            // 3. Save updated data
+            if($this->table->save($temp)) {
+                // 4a. Display Confirmation
+                echo $temp->name." email-id updated successfully";
+            } else {
+                // 4b. Display Error
+                echo "Unable to update, Try again";
+            }
+        } else {
+            echo "Values are missing";
+        }
+    }
+
+    public function deleteEmployeeRecord($id="")
+    {
+        $this->autoRender = false;
+        if($id !== "") {
+            // 1. Get concerned data
+            $temp = $this->table->get($id);
+            // 2. Delete its value
+            if($this->table->delete($temp)) {
+                // 4a. Display Confirmation
+                echo $temp->name."'s account deleted successfully";
+            } else {
+                // 4b. Display Error
+                echo "Unable to update, Try again";
+            }
+        } else {
+            echo "Values are missing";
+        }
+    }
 }
 
 ?>
