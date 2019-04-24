@@ -21,6 +21,9 @@ class DatabaseController extends AppController
         // [Before calling set username, password & db_name in config/app.php]
         $this->connection = ConnectionManager::get('default');
         $this->table = TableRegistry::get('employees');
+
+        // Step 2 : Load Modal
+        $this->loadModel('Fruits'); 
     }
 
     // Step 3 : Create a table in db named [employees], then create insert method
@@ -192,6 +195,121 @@ class DatabaseController extends AppController
                 // 4b. Display Error
                 echo "Unable to update, Try again";
             }
+        } else {
+            echo "Values are missing";
+        }
+    }
+
+
+    
+    // Operation on Modal
+    public function insertFruit($name="", $price="")
+    {
+        $this->autoRender = false;
+        if($name !== "" && $price !== "")
+        {
+            // OPTION 1 : ENTITY
+            // Create New Entity Object
+            $fruitObj = $this->Fruits->newEntity();
+
+            // Set values to object
+            $fruitObj->name = $name;
+            $fruitObj->price = $price;
+
+            // Save object to DB
+            if($this->Fruits->save( $fruitObj)) {
+                echo $name." is inserted successfully @ Rs.".$price;
+            } else {
+                echo "Error occurred, unable to create";
+            }
+
+            // OPTION 2 : QUERY
+            // Create a query builder object    
+            // $fruitsObjectQuery = $this->Fruits->query();
+            // $fruitsObjectQuery
+            // ->insert(['name', 'price'])
+            // ->values(['name'=>$name, 'price'=>$price])
+            // ->execute();
+        }
+    }
+
+    // FETCH BY QUERY
+    public function getFruits()
+    {
+        $this->autoRender = false;
+
+        // Fetching data from database
+        // $data = $this->Fruits->find()->toArray();
+        $data = $this->Fruits->find("all", [
+            // 'conditions'=>['id'=>5],
+            'order'=>['id'=>'desc']
+        ])->toArray();
+
+
+        // Displaying data in list
+        foreach ($data as $key => $value) {
+            echo $value->name." @ Rs.".$value->price."<br>";
+        }
+    }
+
+    // UPDATE BY MODAL ENTITY
+    public function updateFruitPrice($id="", $price="")
+    {
+        $this->autoRender = false;
+
+        if($id !== "" && $price !== "") {
+            // Step 1 : Get data to update
+            $data = $this->Fruits->get($id);
+            // Step 2 : Update value
+            $data->price = $price;
+            // Step 3 : Save Data
+            if($this->Fruits->save($data)) {
+                echo $data->name." price updated to Rs.".$price;
+            }
+        } else {
+            echo "Values are missing";
+        }
+    }
+
+    // UPDATE BY QUERY METHOD
+    public function updateFruitName($id="", $name="")
+    {
+        $this->autoRender = false;
+
+        if($id !== "" && $name !== "") {
+            // Step 1 : 
+            $data = $this->Fruits->query();
+            $data->update()
+            ->set(['name'=>$name])
+            ->where(['id'=>$id])
+            ->execute();
+           
+        } else {
+            echo "Values are missing";
+        }
+    }
+
+    // DELETE BY MODEL ENTITY
+    public function deleteFruitById($id="")
+    {
+        $this->autoRender = false;
+        if($id !== "") { 
+            $data = $this->Fruits->get($id);
+            if($this->Fruits->delete($data)) {
+                echo $data->name." is deleted";
+            }
+        } else {
+            echo "Values are missing";
+        }
+    }
+
+    // DELETE BY QUERY METHOD
+    public function deleteFruitByName($name="")
+    {
+        $this->autoRender = false;
+        if($name !== "") { 
+            $data = $this->Fruits->query();
+            $data->delete()->where(['name'=>$name])->execute();
         } else {
             echo "Values are missing";
         }
